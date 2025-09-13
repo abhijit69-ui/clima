@@ -7,11 +7,13 @@ import WeatherDetails from '@/components/WeatherDetails';
 import WeatherForecast from '@/components/WeatherForecast';
 import { useGeolocation } from '@/hooks/useGeolocation';
 import {
+  useAirQualityQuery,
   useForecastQuery,
   useReverseGeocodeQuery,
   useWeatherQuery,
 } from '@/hooks/useWeather';
 import { AlertTriangle, MapPin, RefreshCw } from 'lucide-react';
+import AirQuality from '@/components/AirQuality';
 
 const WeatherDashboard = () => {
   const {
@@ -24,6 +26,7 @@ const WeatherDashboard = () => {
   const weatherQuery = useWeatherQuery(coordinates);
   const forecastQuery = useForecastQuery(coordinates);
   const locationQuery = useReverseGeocodeQuery(coordinates);
+  const airQualityQuery = useAirQualityQuery(coordinates);
 
   const handleRefresh = () => {
     getLocation();
@@ -134,9 +137,17 @@ const WeatherDashboard = () => {
         </div>
 
         <div className='grid gap-6 md:grid-cols-2 items-start'>
-          {/* details */}
-          <WeatherDetails data={weatherQuery.data} />
-          {/* forecast */}
+          {/* Left column → stacked */}
+          <div className='flex flex-col gap-6'>
+            <WeatherDetails data={weatherQuery.data} />
+            <AirQuality
+              data={airQualityQuery.data}
+              isLoading={airQualityQuery.isLoading}
+            />
+            {/* or AQI */}
+          </div>
+
+          {/* Right column → forecast fills height */}
           <WeatherForecast data={forecastQuery.data} />
         </div>
       </div>

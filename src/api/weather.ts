@@ -1,5 +1,6 @@
 import { API_CONFIG } from './config';
 import type {
+  AirQualityData,
   Coordinates,
   ForecastData,
   GeocodingResponse,
@@ -56,6 +57,24 @@ class WeatherAPI {
     });
 
     return this.fetchData<GeocodingResponse[]>(url);
+  }
+
+  async searchLocations(query: string): Promise<GeocodingResponse[]> {
+    const url = this.createUrl(`${API_CONFIG.GEO}/direct`, {
+      q: query,
+      limit: 5,
+    });
+
+    return this.fetchData<GeocodingResponse[]>(url);
+  }
+
+  async getAirQuality({ lat, lon }: Coordinates): Promise<AirQualityData> {
+    const url = this.createUrl(`${API_CONFIG.BASE_URL}/air_pollution`, {
+      lat: lat.toString(),
+      lon: lon.toString(),
+    });
+
+    return this.fetchData<AirQualityData>(url);
   }
 }
 
