@@ -42,7 +42,7 @@ const WeatherForecast = ({ data }: WeatherForecastProps) => {
     return acc;
   }, {} as Record<string, DailyForecast>);
 
-  const nextDays = Object.values(dailyForecast).slice(0, 6);
+  const nextDays = Object.values(dailyForecast).slice(0, 5);
 
   const formatTemp = (temp: number) => `${Math.round(temp)}°`;
 
@@ -67,7 +67,7 @@ const WeatherForecast = ({ data }: WeatherForecastProps) => {
                 </p>
               </div>
 
-              <div className='flex justify-center gap-4'>
+              <div className='flex flex-col sm:flex-row justify-center gap-4'>
                 <span className='flex items-center text-blue-500'>
                   <ArrowDown className='mr-1 h-4 w-4' />
                   {formatTemp(day.temp_min)}

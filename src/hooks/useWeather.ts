@@ -40,7 +40,7 @@ export function useLocationSearch(query: string) {
   return useQuery({
     queryKey: WEATHER_KEY.search(query),
     queryFn: () => weatherAPI.searchLocations(query),
-    enabled: query.length > 3,
+    enabled: query.length >= 3,
   });
 }
 
