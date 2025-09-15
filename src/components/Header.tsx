@@ -13,7 +13,7 @@ const Header = () => {
           <img
             src='/assets/logo.png'
             alt='clima logo'
-            className='h-14 object-cover'
+            className='h-10 sm:h-14 object-cover'
           />
         </Link>
 
