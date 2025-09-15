@@ -14,6 +14,7 @@ import {
 } from '@/hooks/useWeather';
 import { AlertTriangle, MapPin, RefreshCw } from 'lucide-react';
 import AirQuality from '@/components/AirQuality';
+import FavoriteCities from '@/components/FavoriteCities';
 
 const WeatherDashboard = () => {
   const {
@@ -108,6 +109,7 @@ const WeatherDashboard = () => {
   return (
     <div className='space-y-4'>
       {/* fav cities */}
+      <FavoriteCities />
       <div className='flex items-center justify-between'>
         <h1 className='text-xl font-bold tracking-tight'>My Location</h1>
         <Button
