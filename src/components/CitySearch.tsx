@@ -9,11 +9,12 @@ import {
   CommandList,
   CommandSeparator,
 } from './ui/command';
-import { Clock, Loader2, Search, XCircle } from 'lucide-react';
+import { Clock, Loader2, Search, Star, XCircle } from 'lucide-react';
 import { useLocationSearch } from '@/hooks/useWeather';
 import { useNavigate } from 'react-router-dom';
 import { useSearchHistory } from '@/hooks/useSearchHistory';
 import { format } from 'date-fns';
+import { useFavorite } from '@/hooks/useFavorite';
 
 const CitySearch = () => {
   const [open, setOpen] = useState(false);
@@ -39,6 +40,8 @@ const CitySearch = () => {
     navigate(`/city/${name}?lat=${lat}&lon=${lon}`);
   };
 
+  const { favorites } = useFavorite();
+
   return (
     <>
       <Button
@@ -59,9 +62,29 @@ const CitySearch = () => {
           {query.length > 2 && !isLoading && (
             <CommandEmpty>No cities found.</CommandEmpty>
           )}
-          <CommandGroup heading='Favorites'>
-            <CommandItem>Calendar</CommandItem>
-          </CommandGroup>
+
+          {favorites.length > 0 && (
+            <CommandGroup heading='Favorites'>
+              {favorites.map((location) => (
+                <CommandItem
+                  key={location.id}
+                  value={`${location.lat}|${location.lon}|${location.name}|${location.country}`}
+                  onSelect={handleSelect}
+                >
+                  <Star className='mr-2 h-4 w-4 text-yellow-500' />
+                  <span>{location.name}</span>
+                  {location.state && (
+                    <span className='text-sm text-muted-foreground'>
+                      , {location.state}
+                    </span>
+                  )}
+                  <span className='text-sm text-muted-foreground'>
+                    , {location.country}
+                  </span>
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          )}
 
           {history.length > 0 && (
             <>
@@ -103,7 +126,6 @@ const CitySearch = () => {
                     </span>
                   </CommandItem>
                 ))}
-                <CommandItem>Calendar</CommandItem>
               </CommandGroup>
             </>
           )}
